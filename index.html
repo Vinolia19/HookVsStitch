@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HookVsStitch 🧶</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- 🌷 HEADER -->
+    <header class="hero">
+
+        <div class="hero-decoration">✿ ˚ ༘ 🧶 ⋆｡˚</div>
+
+        <h1>HookVsStitch</h1>
+
+        <p>
+            Crochet Project Management Database
+        </p>
+
+        <div class="hero-decoration">♡ 🧵 🌷 🐰 🌷 🧵 ♡</div>
+
+    </header>
+
+
+    <!-- 🌸 NAVIGATION -->
+    <nav class="navbar">
+
+    
+         <a href="#home">Home</a>
+         <a href="#projects">Projects</a>
+         <a href="#explore">Patterns</a>
+         <a href="#materials">Materials</a>
+         <a href="#stitches">Stitches</a>
+         <a href="#database">Database</a>
+
+    </nav>
+
+
+    <main>
+
+
+        <!-- 🏠 DASHBOARD -->
+        <section id="home">
+
+            <div class="section-heading">
+
+                <span>♡</span>
+
+                <div>
+                    <h2>Welcome to my crochet corner</h2>
+
+                    <p>
+                        A cozy little dashboard for managing
+                        crochet projects, patterns & progress.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+
+            <div class="stats">
+
+                <div class="stat-card pink">
+
+                    <div class="stat-icon">
+                        🧶
+                    </div>
+
+                    <h3>Total Projects</h3>
+
+                    <strong>
+                        {{ total_projects }}
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card purple">
+
+                    <div class="stat-icon">
+                        🎀
+                    </div>
+
+                    <h3>Completed</h3>
+
+                    <strong>
+                        {{ completed_projects }}
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        🌱
+                    </div>
+
+                    <h3>In Progress</h3>
+
+                    <strong>
+                        {{ active_projects }}
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card peach">
+
+                    <div class="stat-icon">
+                        🧸
+                    </div>
+
+                    <h3>Not Started</h3>
+
+                    <strong>
+                        {{ not_started_projects }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 🐰 PROJECTS -->
+        <section id="projects">
+
+            <div class="section-title">
+
+                <span>🧶</span>
+
+                <div>
+                    <h2>My Crochet Projects</h2>
+
+                    <p>
+                        A little collection of everything I'm working on.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="project-grid">
+
+                {% for project in projects %}
+
+                <div class="project-card">
+
+                    <div class="project-emoji">
+
+                        {% if project.category == "Amigurumi" %}
+                            🐰
+                        {% elif project.category == "Blanket" %}
+                            🧶
+                        {% elif project.category == "Bag" %}
+                            👜
+                        {% elif project.category == "Accessories" %}
+                            🧣
+                        {% else %}
+                            🧵
+                        {% endif %}
+
+                    </div>
+
+
+                    <h3>
+                        {{ project.project_name }}
+                    </h3>
+
+
+                    <p class="owner">
+                        ♡ {{ project.owner }}
+                    </p>
+
+
+                    <div class="tags">
+
+                        <span>
+                            {{ project.category }}
+                        </span>
+
+                        <span>
+                            {{ project.difficulty }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="status">
+
+                        {% if project.status == "Completed" %}
+
+                            <span class="status-complete">
+                                ✿ Completed
+                            </span>
+
+                        {% elif project.status == "In Progress" %}
+
+                            <span class="status-progress">
+                                🧵 In Progress
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-notstarted">
+                                🌱 Not Started
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 📈 PROGRESS -->
+        <section>
+
+            <div class="section-title">
+
+                <span>📈</span>
+
+                <div>
+
+                    <h2>Project Progress</h2>
+
+                    <p>
+                        A quick look at how each project is coming along.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress-container">
+
+                {% for item in progress_summary %}
+
+                <div class="progress-card">
+
+                    <div class="progress-header">
+
+                        <strong>
+                            {{ item.project_name }}
+                        </strong>
+
+                        <span>
+                            {{ item.completion_percentage }}%
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width: {{ item.completion_percentage }}%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 🧶 MATERIALS -->
+        <section id="materials">
+
+            <div class="section-title">
+
+                <span>🧶</span>
+
+                <div>
+
+                    <h2>Materials</h2>
+
+                    <p>
+                        Everything needed to bring these projects to life.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Project</th>
+                            <th>Material</th>
+                            <th>Type</th>
+                            <th>Quantity</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for material in materials %}
+
+                        <tr>
+
+                            <td>
+                                {{ material.project_name }}
+                            </td>
+
+                            <td>
+                                🧶 {{ material.material_name }}
+                            </td>
+
+                            <td>
+                                {{ material.material_type }}
+                            </td>
+
+                            <td>
+                                {{ material.quantity }}
+                                {{ material.unit }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- 🪡 STITCHES -->
+        <section id="stitches">
+
+            <div class="section-title">
+
+                <span>🪡</span>
+
+                <div>
+
+                    <h2>Stitch Library</h2>
+
+                    <p>
+                        Crochet stitches used throughout the database.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stitch-grid">
+
+                {% for stitch in stitches %}
+
+                <div class="stitch-card"
+                onclick ="showStitchDetails('{{stitch.stitch_id}}')">
+
+
+                    <div class="stitch-icon">
+                        🪡
+                    </div>
+
+                    <h3>
+                        {{ stitch.stitch_name }}
+                    </h3>
+
+                    <span class="abbreviation">
+                        {{ stitch.abbreviation }}
+                    </span>
+
+                    <p>
+                        {{ stitch.description }}
+                    </p>
+
+                    <div class="usage">
+
+                        Used:
+                        <strong>
+                            {{ stitch.total_usage }}
+                        </strong>
+                        times
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+       
+
+        <!-- 👩‍🧶 USERS -->
+        <section>
+
+            <div class="section-title">
+
+                <span>👩‍🧶</span>
+
+                <div>
+
+                    <h2>Crochet Community</h2>
+
+                    <p>
+                        Users currently stored in the database.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="user-grid">
+
+                {% for user in users %}
+
+                <div class="user-card">
+
+                    <div class="avatar">
+                        🧶
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ user.name }}
+                        </h3>
+
+                        <p>
+                            {{ user.email }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        <section id="database" class="database-section">
+
+    <div class="section-title">
+
+        <span>🗄️</span>
+
+        <div>
+            <h2>Behind the Crochet</h2>
+
+            <p>
+                The database design behind HookVsStitch —
+                from tables and relationships to SQL concepts.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- DATABASE INTRO -->
+
+    <div class="db-intro-card">
+
+        <div class="db-intro-icon">
+            🧶
+        </div>
+
+        <div>
+
+            <h3>How HookVsStitch works</h3>
+
+            <p>
+                HookVsStitch uses a relational SQLite database
+                to organize users, crochet projects, patterns,
+                stitches, materials and progress.
+            </p>
+
+            <p>
+                Each table stores a specific type of information.
+                Primary keys uniquely identify records, while
+                foreign keys connect related tables.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- DATABASE STATS -->
+
+    <div class="db-stats">
+
+        <div>
+            <strong>9</strong>
+            <span>Tables</span>
+        </div>
+
+        <div>
+            <strong>5</strong>
+            <span>Projects</span>
+        </div>
+
+        <div>
+            <strong>5</strong>
+            <span>Stitches</span>
+        </div>
+
+        <div>
+            <strong>5</strong>
+            <span>Indexes</span>
+        </div>
+
+    </div>
+
+
+    <!-- TABLE STRUCTURE -->
+
+    <div class="db-detail-box">
+
+        <div class="db-detail-heading">
+
+            <span>🗃️</span>
+
+            <div>
+                <h3>Database Tables</h3>
+
+                <p>
+                    Each table has a specific responsibility
+                    in the HookVsStitch database.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="table-structure-grid">
+
+
+            <div class="table-card">
+
+                <h4>👩‍🧶 users</h4>
+
+                <p>
+                    Stores user account information.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    user_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>🐰 projects</h4>
+
+                <p>
+                    Stores crochet projects created
+                    by users.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    project_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    user_id → users.user_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>🧵 patterns</h4>
+
+                <p>
+                    Stores the crochet pattern associated
+                    with a project.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    pattern_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    project_id → projects.project_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>📋 pattern_rows</h4>
+
+                <p>
+                    Stores individual rows and instructions
+                    of a crochet pattern.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    row_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    pattern_id → patterns.pattern_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>🪡 stitches</h4>
+
+                <p>
+                    Stores the reusable stitch library.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    stitch_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>🔗 row_stitches</h4>
+
+                <p>
+                    Connects pattern rows with the stitches
+                    used in those rows.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    row_stitch_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    row_id → pattern_rows.row_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    stitch_id → stitches.stitch_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>🧶 materials</h4>
+
+                <p>
+                    Stores yarn, hooks, stuffing and
+                    other crochet materials.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    material_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>🎀 pattern_materials</h4>
+
+                <p>
+                    Connects patterns with the materials
+                    required for them.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    pattern_material_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    pattern_id → patterns.pattern_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    material_id → materials.material_id
+                </div>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <h4>📈 progress</h4>
+
+                <p>
+                    Tracks whether individual pattern rows
+                    have been completed.
+                </p>
+
+                <div class="key-line">
+                    <span class="pk">PK</span>
+                    progress_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    project_id → projects.project_id
+                </div>
+
+                <div class="key-line">
+                    <span class="fk">FK</span>
+                    row_id → pattern_rows.row_id
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DATABASE RELATIONSHIPS -->
+
+    <div class="db-detail-box">
+
+        <div class="db-detail-heading">
+
+            <span>🔗</span>
+
+            <div>
+                <h3>How the Tables Connect</h3>
+
+                <p>
+                    Foreign keys create relationships between
+                    the tables.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="relationship-list">
+
+            <div class="relationship-item">
+
+                <span>👩‍🧶</span>
+
+                <div>
+
+                    <strong>Users → Projects</strong>
+
+                    <p>
+                        One user can have multiple projects.
+                        The <code>projects.user_id</code>
+                        foreign key connects each project
+                        to its owner.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="relationship-item">
+
+                <span>🐰</span>
+
+                <div>
+
+                    <strong>Projects → Patterns</strong>
+
+                    <p>
+                        A project can have a pattern.
+                        The <code>patterns.project_id</code>
+                        foreign key connects the pattern
+                        to its project.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="relationship-item">
+
+                <span>🧵</span>
+
+                <div>
+
+                    <strong>Patterns → Pattern Rows</strong>
+
+                    <p>
+                        A pattern contains multiple rows.
+                        Each row is connected using
+                        <code>pattern_id</code>.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="relationship-item">
+
+                <span>🪡</span>
+
+                <div>
+
+                    <strong>Pattern Rows ↔ Stitches</strong>
+
+                    <p>
+                        The <code>row_stitches</code> table
+                        connects pattern rows with the
+                        stitches used in them.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="relationship-item">
+
+                <span>🧶</span>
+
+                <div>
+
+                    <strong>Patterns ↔ Materials</strong>
+
+                    <p>
+                        The <code>pattern_materials</code>
+                        table connects patterns with the
+                        materials they require.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="relationship-item">
+
+                <span>📈</span>
+
+                <div>
+
+                    <strong>Projects → Progress</strong>
+
+                    <p>
+                        The progress table records whether
+                        individual pattern rows have been
+                        completed for a project.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SQL CONCEPTS -->
+
+    <div class="db-detail-box">
+
+        <div class="db-detail-heading">
+
+            <span>💻</span>
+
+            <div>
+                <h3>SQL & DBMS Concepts Used</h3>
+
+                <p>
+                    The main database concepts demonstrated
+                    in this project.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="concept-grid">
+
+
+            <div class="concept-card">
+
+                <span>🔑</span>
+
+                <h4>Primary Keys</h4>
+
+                <p>
+                    Uniquely identify each record in a table.
+                    Examples include
+                    <code>user_id</code>,
+                    <code>project_id</code> and
+                    <code>pattern_id</code>.
+                </p>
+
+            </div>
+
+
+            <div class="concept-card">
+
+                <span>🔗</span>
+
+                <h4>Foreign Keys</h4>
+
+                <p>
+                    Connect related tables and maintain
+                    relationships between records.
+                </p>
+
+            </div>
+
+
+            <div class="concept-card">
+
+                <span>🔄</span>
+
+                <h4>JOINs</h4>
+
+                <p>
+                    Combine data from multiple related tables.
+                    For example, projects can be joined with
+                    users to display the project owner.
+                </p>
+
+            </div>
+
+
+            <div class="concept-card">
+
+                <span>📊</span>
+
+                <h4>GROUP BY</h4>
+
+                <p>
+                    Groups records for calculations such as
+                    stitch usage and project statistics.
+                </p>
+
+            </div>
+
+
+            <div class="concept-card">
+
+                <span>👁️</span>
+
+                <h4>SQL VIEW</h4>
+
+                <p>
+                    The
+                    <code>project_progress_summary</code>
+                    view provides reusable project progress
+                    calculations.
+                </p>
+
+            </div>
+
+
+            <div class="concept-card">
+
+                <span>⚡</span>
+
+                <h4>Indexes</h4>
+
+                <p>
+                    Five indexes were created to improve
+                    lookup performance on commonly searched
+                    columns.
+                </p>
+
+            </div>
+
+
+            <div class="concept-card">
+
+                <span>📌</span>
+
+                <h4>Constraints</h4>
+
+                <p>
+                    NOT NULL, UNIQUE, PRIMARY KEY and
+                    FOREIGN KEY constraints help maintain
+                    data integrity.
+                </p>
+
+            </div>
+
+
+            <div class="concept-card">
+
+                <span>🧮</span>
+
+                <h4>Aggregate Functions</h4>
+
+                <p>
+                    COUNT, SUM and other calculations are used
+                    to generate project and stitch statistics.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DATABASE TAGS -->
+
+    <div class="db-tags">
+
+        <span>Primary Keys</span>
+
+        <span>Foreign Keys</span>
+
+        <span>JOINs</span>
+
+        <span>GROUP BY</span>
+
+        <span>SQL VIEW</span>
+
+        <span>Indexes</span>
+
+        <span>Constraints</span>
+
+        <span>Aggregate Functions</span>
+
+    </div>
+
+</section>
+          
+
+    </main>
+
+
+    <!-- =====================================
+     🐰 INTERACTIVE PROJECT EXPLORER
+====================================== -->
+
+<section id="explore" class="interactive-section">
+
+    <div class="section-title">
+
+        <span>🐰</span>
+
+        <div>
+            
+            <h2>Explore a Project</h2>
+
+            <p>
+                Pick a project to see its crochet details.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="explorer-card">
+
+        <label for="projectSelect">
+            Choose a project
+        </label>
+
+        <select id="projectSelect">
+
+            <option value="">
+                ✿ Select a crochet project
+            </option>
+
+            {% for project in projects %}
+
+            <option value="{{ project.project_id }}">
+                {{ project.project_name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <div id="projectDetails"
+             class="details-area">
+
+            <div class="empty-state">
+
+                🧶
+
+                <h3>
+                    Choose a project above
+                </h3>
+
+                <p>
+                    Your pattern, materials and progress
+                    will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================
+     🗄️ INTERACTIVE DATABASE EXPLORER
+====================================== -->
+
+<section class="interactive-section">
+
+    <div class="section-title">
+
+        <span>🗄️</span>
+
+        <div>
+
+            <h2>Database Explorer</h2>
+
+            <p>
+                Explore the actual tables stored in SQLite.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="explorer-card">
+
+        <label for="tableSelect">
+            Choose a database table
+        </label>
+
+        <select id="tableSelect">
+
+            <option value="">
+                ✿ Select a table
+            </option>
+
+            <option value="users">
+                👩‍🧶 Users
+            </option>
+
+            <option value="projects">
+                🐰 Projects
+            </option>
+
+            <option value="patterns">
+                🧵 Patterns
+            </option>
+
+            <option value="pattern_rows">
+                📋 Pattern Rows
+            </option>
+
+            <option value="stitches">
+                🪡 Stitches
+            </option>
+
+            <option value="row_stitches">
+                🔗 Row Stitches
+            </option>
+
+            <option value="materials">
+                🧶 Materials
+            </option>
+
+            <option value="pattern_materials">
+                🎀 Pattern Materials
+            </option>
+
+            <option value="progress">
+                📈 Progress
+            </option>
+
+        </select>
+
+
+        <div id="tableDetails"
+             class="database-results">
+
+            <div class="empty-state">
+
+                🗄️
+
+                <h3>
+                    Choose a table
+                </h3>
+
+                <p>
+                    The real database records will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+/* ==========================================
+   🐰 PROJECT EXPLORER
+========================================== */
+
+const projectSelect =
+    document.getElementById("projectSelect");
+
+const projectDetails =
+    document.getElementById("projectDetails");
+
+
+projectSelect.addEventListener("change", async function () {
+
+    const projectId = this.value;
+
+    if (!projectId) {
+
+        projectDetails.innerHTML = `
+            <div class="empty-state">
+
+                🧶
+
+                <h3>Choose a project above</h3>
+
+                <p>
+                    Your crochet details will appear here.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    projectDetails.innerHTML = `
+        <div class="loading">
+            🧶 Loading crochet details...
+        </div>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(`/project/${projectId}`);
+
+        const data =
+            await response.json();
+
+
+        const project =
+            data.project;
+
+        let html = `
+
+            <div class="project-detail-header">
+
+                <div class="big-project-icon">
+                    🧶
+                </div>
+
+                <div>
+
+                    <h2>
+                        ${project.project_name}
+                    </h2>
+
+                    <p>
+                        ♡ ${project.owner}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-pills">
+
+                <span>
+                    ${project.category}
+                </span>
+
+                <span>
+                    ${project.difficulty}
+                </span>
+
+                <span>
+                    ${project.status}
+                </span>
+
+            </div>
+        `;
+
+
+        /* PATTERN */
+
+        if (data.pattern) {
+
+            html += `
+
+                <div class="detail-box">
+
+                    <h3>🧵 Pattern</h3>
+
+                    <h4>
+                        ${data.pattern.pattern_name}
+                    </h4>
+
+                    <p>
+                        ${data.pattern.description || "No description available."}
+                    </p>
+
+                </div>
+
+            `;
+        }
+
+
+        /* PATTERN ROWS */
+
+        html += `
+
+            <div class="detail-box">
+
+                <h3>📋 Pattern Rows</h3>
+
+        `;
+
+
+        if (data.rows.length === 0) {
+
+            html += `
+                <p>No pattern rows found.</p>
+            `;
+
+        } else {
+
+            data.rows.forEach(row => {
+
+                html += `
+
+                    <div class="row-item">
+
+                        <div class="row-number">
+                            ${row.row_number}
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Row ${row.row_number}
+                            </strong>
+
+                            <p>
+                                ${row.instruction}
+                            </p>
+
+                            <small>
+                                Expected stitches:
+                                ${row.expected_stitches ?? "—"}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+
+        html += `</div>`;
+
+
+        /* MATERIALS */
+
+        html += `
+
+            <div class="detail-box">
+
+                <h3>🧶 Materials</h3>
+
+                <div class="mini-grid">
+        `;
+
+
+        data.materials.forEach(material => {
+
+            html += `
+
+                <div class="mini-card">
+
+                    <strong>
+                        🧶 ${material.material_name}
+                    </strong>
+
+                    <small>
+                        ${material.material_type || ""}
+                    </small>
+
+                    <span>
+                        ${material.quantity ?? "—"}
+                        ${material.unit || ""}
+                    </span>
+
+                </div>
+
+            `;
+
+        });
+
+
+        html += `
+                </div>
+            </div>
+        `;
+
+
+        /* PROGRESS */
+
+        html += `
+
+            <div class="detail-box">
+
+                <h3>📈 Progress</h3>
+        `;
+
+
+        if (data.progress.length === 0) {
+
+            html += `
+                <p>
+                    No progress records available yet.
+                </p>
+            `;
+
+        } else {
+
+            data.progress.forEach(item => {
+
+                const completed =
+                    Number(item.completed) === 1;
+
+                html += `
+
+                    <div class="progress-row">
+
+                        <span>
+                            Row ${item.row_number}
+                        </span>
+
+                        <span>
+                            ${
+                                completed
+                                ? "♡ Completed"
+                                : "○ Pending"
+                            }
+                        </span>
+
+                    </div>
+
+                `;
+
+            });
+
+        }
+
+
+        html += `
+            </div>
+        `;
+
+
+        projectDetails.innerHTML = html;
+
+    }
+
+    catch (error) {
+
+        projectDetails.innerHTML = `
+
+            <div class="error-box">
+
+                Something went wrong while loading
+                this project.
+
+            </div>
+
+        `;
+
+        console.error(error);
+
+    }
+
+});
+
+
+
+/* ==========================================
+   🗄️ DATABASE EXPLORER
+========================================== */
+
+const tableSelect =
+    document.getElementById("tableSelect");
+
+const tableDetails =
+    document.getElementById("tableDetails");
+
+
+tableSelect.addEventListener("change", async function () {
+
+    const tableName = this.value;
+
+    if (!tableName) {
+
+        tableDetails.innerHTML = `
+
+            <div class="empty-state">
+
+                🗄️
+
+                <h3>Choose a table</h3>
+
+                <p>
+                    The actual SQLite records will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    tableDetails.innerHTML = `
+
+        <div class="loading">
+            🗄️ Loading database records...
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(`/table/${tableName}`);
+
+        const data =
+            await response.json();
+
+
+        let html = `
+
+            <h3 class="table-name">
+                🗄️ ${data.table}
+            </h3>
+
+            <div class="database-table-wrapper">
+
+                <table class="database-table">
+
+                    <thead>
+                        <tr>
+        `;
+
+
+        data.columns.forEach(column => {
+
+            html += `
+                <th>${column}</th>
+            `;
+
+        });
+
+
+        html += `
+                    </tr>
+                    </thead>
+
+                    <tbody>
+        `;
+
+
+        data.records.forEach(record => {
+
+            html += `<tr>`;
+
+            data.columns.forEach(column => {
+
+                html += `
+                    <td>
+                        ${record[column] ?? "—"}
+                    </td>
+                `;
+
+            });
+
+            html += `</tr>`;
+
+        });
+
+
+        html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        tableDetails.innerHTML = html;
+
+    }
+
+    catch (error) {
+
+        tableDetails.innerHTML = `
+
+            <div class="error-box">
+
+                Could not load this table.
+
+            </div>
+
+        `;
+
+        console.error(error);
+
+    }
+
+});
+
+
+</script>
+
+
+
+    <!-- 🌷 FOOTER -->
+
+    <footer>
+
+        <div>
+            🧶 ♡ 🧵 ♡ 🐰 ♡ 🧸
+        </div>
+
+        <p>
+            HookVsStitch · Crochet Project Management Database
+        </p>
+
+        <small>
+            Built with SQL, SQLite & Flask
+        </small>
+
+    </footer>
+
+
+</body>
+
+</html>
